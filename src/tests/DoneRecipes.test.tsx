@@ -45,9 +45,9 @@ describe('Testa os elementos da pagina de done-recipes.', () => {
       indexImg += 1;
     }
 
-    let indexShareBtn = 0;
-    while (indexShareBtn < 100) {
-      const shareBtnTestId = `${indexShareBtn}-horizontal-share-btn`;
+    let INDEX = 0;
+    while (INDEX < 100) {
+      const shareBtnTestId = `${INDEX}-horizontal-share-btn`;
       const shareBtnElement = screen.queryByTestId(shareBtnTestId);
 
       if (!shareBtnElement) {
@@ -59,7 +59,7 @@ describe('Testa os elementos da pagina de done-recipes.', () => {
       expect(window.location.pathname).toBe(DONE_RECIPES);
       expect(screen.getByText('Link copied!')).toBeInTheDocument();
 
-      indexShareBtn += 1;
+      INDEX += 1;
     }
   });
 
