@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import shareIcon from '../images/shareIcon.svg';
 import disFavoriteIcon from '../images/blackHeartIcon.svg';
+import { FavoriteRecipeType } from '../types';
 
 const Container = styled.div`
   display: flex;
@@ -29,8 +30,8 @@ const Card = styled.div`
   font-size: 12px;
 `;
 
-export function FavoritRecipes() {
-  const [checkedIngredients, setCheckedIngredients] = useState<string[]>([]);
+function FavRecipes() {
+  const [checkedIngredients, setCheckedIngredients] = useState<FavoriteRecipeType[]>([]);
   const [copyTextDrink, setCopyTextDrink] = useState(false);
   const [copyTextMeal, setCopyTextMeal] = useState(false);
   const [filter, setFilter] = useState('all');
@@ -55,7 +56,7 @@ export function FavoritRecipes() {
     setCopyTextDrink(true);
   };
 
-  const DeleteFavorite = (index) => {
+  const DeleteFavorite = (index: any) => {
     const updatedFavorites = checkedIngredients.filter(
       (recipe) => recipe.id !== checkedIngredients[index].id,
     );
@@ -89,10 +90,10 @@ export function FavoritRecipes() {
         Drinks
       </button>
       <Container>
-        {checkedIngredients.filter((ingredient) => {
+        {checkedIngredients.filter((ingredient: any) => {
           if (filter === 'all') return true;
           return ingredient.type === filter;
-        }).map((ingredient, index) => {
+        }).map((ingredient: any, index: number) => {
           if (ingredient.type === 'meal') {
             return (
               <Card key={ index }>
@@ -172,3 +173,5 @@ export function FavoritRecipes() {
     </>
   );
 }
+
+export default FavRecipes;

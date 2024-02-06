@@ -1,5 +1,5 @@
-import { FavoritRecipes } from '../Components/FavoritRecipes';
 import Header from '../Components/Header';
+import FavRecipes from '../Components/FavRecipes';
 
 function FavoriteRecipes() {
   return (
@@ -8,7 +8,7 @@ function FavoriteRecipes() {
       <h1 data-testid="page-title">
         Favorite Recipes
       </h1>
-      <FavoritRecipes />
+      <FavRecipes />
     </div>
   );
 }

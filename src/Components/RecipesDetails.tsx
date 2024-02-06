@@ -206,6 +206,7 @@ export function RecipesDetails() {
       </ContainerCard>
       <GoBackButton
         onClick={ () => navigate(-1) }
+        data-testid="return-button"
       >
         Voltar
       </GoBackButton>

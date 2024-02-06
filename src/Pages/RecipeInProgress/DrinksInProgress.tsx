@@ -15,7 +15,7 @@ function DrinksInProgress() {
   const navigate = useNavigate();
   const [recipeDetails, setRecipeDetails] = useState<any>('');
   const [ingredientsFilter, setIngredientsFilter] = useState<any>('');
-  const [checkedIngredients, setCheckedIngredients] = useState<string[]>([]);
+  const [checkedIngredients, setCheckedIngredients] = useState<any[]>([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const [copyText, setCopyText] = useState(false);
   const [allIngredientsChecked, setAllIngredientsChecked] = useState(false);
@@ -59,7 +59,8 @@ function DrinksInProgress() {
   useEffect(() => {
     localStorage.setItem('inProgressRecipes', JSON.stringify(checkedIngredients));
     setAllIngredientsChecked(
-      ingredientsArray.every((ingredient) => checkedIngredients.includes(ingredient)),
+      ingredientsArray.every((ingredient) => Array.isArray(checkedIngredients)
+      && checkedIngredients.includes(ingredient)),
     );
   }, [checkedIngredients]);
 
@@ -156,13 +157,16 @@ function DrinksInProgress() {
           <li key={ index }>
             <label
               data-testid={ `${index}-ingredient-step` }
-              style={ { textDecoration: checkedIngredients.includes(ingredient)
-                ? 'line-through' : 'none' } }
+              style={ {
+                textDecoration: Array.isArray(checkedIngredients)
+                && checkedIngredients.includes(ingredient)
+                  ? 'line-through' : 'none' } }
             >
               <input
                 type="checkbox"
                 onChange={ () => handleCheckboxChange(ingredient) }
-                checked={ checkedIngredients.includes(ingredient) }
+                checked={ Array.isArray(checkedIngredients)
+                  && checkedIngredients.includes(ingredient) }
               />
               {ingredient}
             </label>
