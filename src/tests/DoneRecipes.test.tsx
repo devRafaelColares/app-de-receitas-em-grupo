@@ -5,6 +5,7 @@ import DoneRecipes from '../Pages/DoneRecipes';
 import App from '../App';
 
 const DONE_RECIPES = '/done-recipes';
+const MESSAGE = 'Link copied!';
 
 describe('Testa os elementos da pagina de done-recipes.', () => {
   test('Testa a rota /done-recipes.', async () => {
@@ -57,10 +58,50 @@ describe('Testa os elementos da pagina de done-recipes.', () => {
       expect(shareBtnElement).toBeInTheDocument();
       user.click(shareBtnElement);
       expect(window.location.pathname).toBe(DONE_RECIPES);
-      expect(screen.getByText('Link copied!')).toBeInTheDocument();
+      expect(screen.getByText(MESSAGE)).toBeInTheDocument();
 
       INDEX += 1;
     }
+
+    let indexShareBtn = 0;
+    while (indexShareBtn < 100) {
+      const shareBtnTestId = `${indexShareBtn}-horizontal-share-btn`;
+      const shareBtnElement = screen.queryByTestId(shareBtnTestId);
+
+      if (!shareBtnElement) {
+        break;
+      }
+
+      expect(shareBtnElement).toBeInTheDocument();
+      user.click(shareBtnElement);
+      expect(window.location.pathname).toBe(DONE_RECIPES);
+      expect(screen.getByText(MESSAGE)).toBeInTheDocument();
+
+      indexShareBtn += 1;
+    }
+  });
+
+  test('Testanto as funções', async () => {
+    const { user } = renderWithRouter(<DoneRecipes />, { route: DONE_RECIPES });
+    const allBtn = screen.getByRole('button', { name: /all/i });
+    const mealsBtn = screen.getByRole('button', { name: /meals/i });
+    const drinksBtn = screen.getByRole('button', { name: /drinks/i });
+
+    expect(allBtn).toBeInTheDocument();
+    expect(mealsBtn).toBeInTheDocument();
+    expect(drinksBtn).toBeInTheDocument();
+
+    await user.click(allBtn);
+    expect(window.location.pathname).toBe(DONE_RECIPES);
+
+    await user.click(mealsBtn);
+    expect(window.location.pathname).toBe(DONE_RECIPES);
+
+    await user.click(drinksBtn);
+    expect(window.location.pathname).toBe(DONE_RECIPES);
+
+    vi.spyOn(window, 'alert').mockImplementation(() => {});
+    await user.click(allBtn);
   });
 
   test('Testanto as funções', async () => {
@@ -102,7 +143,7 @@ describe('Testa os elementos da pagina de done-recipes.', () => {
 
     const shareBtn = await screen.findByTestId('0-horizontal-share-btn');
     await user.click(shareBtn);
-    const messageCopied = await screen.findByText('Link copied!');
+    const messageCopied = await screen.findByText(MESSAGE);
     expect(messageCopied).toBeInTheDocument();
   });
 });
