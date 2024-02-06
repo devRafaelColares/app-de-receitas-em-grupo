@@ -39,10 +39,12 @@ function MealsInProgress() {
     const isFav = favorites.some((recipe: FavoriteRecipeType) => recipe.id === params.id);
     setIsFavorited(isFav);
   }, [params]);
+
   useEffect(() => { // esse é para salvar o progresso no localStorage
     localStorage.setItem('inProgressRecipes', JSON.stringify(checkedIngredients));
     setAllIngredientsChecked(ingredientsArray.every(
-      (ingredient) => checkedIngredients.includes(ingredient),
+      (ingredient) => Array.isArray(checkedIngredients)
+      && checkedIngredients.includes(ingredient),
     ));
   }, [checkedIngredients]);
 
@@ -134,13 +136,16 @@ function MealsInProgress() {
           <li key={ index }>
             <label
               data-testid={ `${index}-ingredient-step` }
-              style={ { textDecoration: checkedIngredients.includes(ingredient)
-                ? 'line-through' : 'none' } }
+              style={ {
+                textDecoration: Array.isArray(checkedIngredients)
+                && checkedIngredients.includes(ingredient)
+                  ? 'line-through' : 'none' } }
             >
               <input
                 type="checkbox"
                 onChange={ () => handleCheckboxChange(ingredient) }
-                checked={ checkedIngredients.includes(ingredient) }
+                checked={ Array.isArray(checkedIngredients)
+                  && checkedIngredients.includes(ingredient) }
               />
               {ingredient}
             </label>
@@ -148,7 +153,7 @@ function MealsInProgress() {
         ))}
       </ul>
       <h2>Instructions:</h2>
-      <p data-testid="instructions">{strInstructions}</p>
+      <p data-testid="instructions">{ strInstructions }</p>
       <button
         onClick={ handleFavoriteClick }
       >
